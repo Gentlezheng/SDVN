@@ -1,4 +1,4 @@
-# 信息更新包 属性：id，地理位置，速度，加速度，当前剩余缓存
+# Information update package attributes: id, geographic location, speed, acceleration, current remaining cache
 class Hello:
     def __init__(self, node_id, position, velocity, acceleration, current_cache):
         self.node_id = node_id
@@ -8,7 +8,7 @@ class Hello:
         self.current_cache = current_cache
 
 
-# 路由请求 属性：源节点，目的节点，发出者节点，发出者序号
+# Route request attributes: source node, destination node, sender node, sender serial number
 class FlowRequest:
     def __init__(self, source_id, des_id, node_id, seq):
         self.source_id = source_id
@@ -17,7 +17,7 @@ class FlowRequest:
         self.node_id = node_id
 
 
-# 路由回复 属性：源节点，目的节点，路径节点序列，路由发出者节点，路由发出者序号
+# Route reply attributes: source node, destination node, route node sequence, route issuer node, route issuer serial number
 class FlowReply:
     def __init__(self, source_id, des_id, route, node_id, seq):
         self.source_id = source_id
@@ -26,7 +26,7 @@ class FlowReply:
         self.seq = seq
         self.node_id = node_id
 
-# 路由回复 属性：源节点，目的节点，路径节点序列，路由发出者节点，路由发出者序号
+# Route reply attributes: source node, destination node, route node sequence, route issuer node, route issuer serial number
 class geo_FlowReply:
     def __init__(self, source_id, des_list, nexthoplist, node_id, seq):
         self.source_id = source_id
@@ -35,7 +35,7 @@ class geo_FlowReply:
         self.seq = seq
         self.node_id = node_id
 
-# 路由错误请求 属性： 源节点，目的节点，错误节点，错误次数，路由发出者序号，错误发出者序号
+# Routing error request Attributes: source node, destination node, error node, number of errors, route issuer serial number, error issuer serial number
 class FlowError:
     def __init__(self, source_id, des_id, error_id, time, source_seq, error_seq):
         self.source_id = source_id
@@ -46,7 +46,7 @@ class FlowError:
         self.error_seq = error_seq
 
 
-# 数据分组 属性：源节点，目的节点，分组大小，状态，路由发出者节点，路由发出者序号
+# Data packet attributes: source node, destination node, packet size, status, route sender node, route sender serial number
 class DataPkt:
     def __init__(self, source_id, des_id, pkt_size, state, node_id, seq, s_time):
         self.source_id = source_id
@@ -59,7 +59,7 @@ class DataPkt:
         self.e_time = 0
         self.delay = 0
 
-# 数据分组 属性：源节点，目的节点，分组大小，状态，路由发出者节点，路由发出者序号
+# Data packet attributes: source node, destination node, packet size, status, route sender node, route sender serial number
 class geo_DataPkt:
     def __init__(self, source_id, des_list, pkt_size, state, node_id, seq, s_time):
         self.source_id = source_id
@@ -80,7 +80,7 @@ class geo_FlowRequest:
         self.seq = seq
         self.node_id = node_id
 
-# 路由表 属性：源节点，目的节点，下一跳节点，状态，路由发出者节点，路由发出者序号
+# Routing table attributes: source node, destination node, next hop node, status, route issuer node, route issuer serial number
 class RoutingTable:
     def __init__(self, source_id, des_id, next_hop_id, state, node_id, seq):
         self.source_id = source_id
