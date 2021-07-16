@@ -1,8 +1,8 @@
-from sklearn.preprocessing import StandardScaler #去量纲
+from sklearn.preprocessing import StandardScaler #Dimensionality
 import numpy as np
-# 现在导入神经网络中的一个多分类模型，用于训练多分类数据
+# Now import a multi-class model in the neural network for training multi-class data
 from sklearn.neural_network import MLPClassifier
-# 现在导入sklearn中的用于评测预测结果指标的库，如混淆矩阵和分类报告
+# Now import libraries in sklearn for evaluating prediction result indicators, such as confusion matrix and classification report
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.model_selection import train_test_split
 import EXP_ABS as Ea
@@ -18,7 +18,7 @@ class ANN:
         self.mlp = None
 
     def def_angle(x0, y0, x1, y1, x2, y2):
-        if x0 == x1 and y0 == y1:  # 没动地方
+        if x0 == x1 and y0 == y1:  # Did not move
             return 0
         cos = ((x1 - x0) * (x2 - x0) + (y1 - y0) * (y2 - y0)) / (math.sqrt(pow(x1 - x0, 2) + pow(y1 - y0, 2)) * math.sqrt(pow(x2 - x0, 2) + pow(y2 - y0, 2)))
 
@@ -27,27 +27,28 @@ class ANN:
         RG = controller.junction_matrix
         for u in RG.nodes():
 
-            for u, v in RG.edges(u):  # u 对v 的评价, v 相对于u的距离变化率，速度变化率，连接时长
-                # 确保距离小于250
+            for u, v in RG.edges(u):  # u's evaluation of v, v relative to u's distance change rate, speed change rate, connection time
+                # Make sure the distance is less than 250
                 distance_uv = Ea.distance(node_list[u].position, node_list[v].position)
                 if 0 < distance_uv < Gp.com_dis and u != v:
 
-                    # 计算距离的变化率
+                    # Calculate the rate of change of distance
                     trans_dist = (distance_uv - controller.feature_junction_matrix[u][v]['lat_dist_uv']) / distance_uv
 
                     controller.feature_junction_matrix[u][v]['lat_dist_uv'] = distance_uv
                     # 方向是否变动
                     if node_list[u].direction == node_list[v].direction:
-                        controller.feature_junction_matrix[u][v]['direction_is_same'] = 1  # 期间方向是否相同
+                        # Is the direction the same during the period
+                        controller.feature_junction_matrix[u][v]['direction_is_same'] = 1  
                     else:
                         controller.feature_junction_matrix[u][v]['direction_is_same'] = 0
 
-                    # Gvalue的变化率
+                    # Gvalue change rate
                     pre_gvalue = Ea.gvlaue(v, RG)
                     Gvalue = (pre_gvalue - controller.feature_junction_matrix[u][v]['lat_gvalue']) / pre_gvalue
                     controller.feature_junction_matrix[u][v]['lat_gvalue'] = pre_gvalue
                     # print('---------函数内{}---------:'.format(RG[u][v]['lat_gvalue']))
-                    # 角度余弦值变化率
+                    # Angle cosine change rate
                     cos_angle_u_sds = ANN.def_angle(node_list[u].lat_position[0], node_list[u].lat_position[1],
                                                 node_list[u].position[0], node_list[u].position[1],
                                                 node_list[v].lat_position[0], node_list[v].lat_position[1])
@@ -65,7 +66,7 @@ class ANN:
                         np.array([[cos_angle_u_sds, cos_angle_u_sdd], [cos_angle_v_sds, cos_angle_v_sdd]]))
 
 
-                    # 加速度的变化率
+                    # Rate of change of acceleration
                     pre_accel = Ea.distance(node_list[v].velocity, node_list[u].velocity)
                     if pre_accel != 0:
                         accel_rate = abs(pre_accel - controller.feature_junction_matrix[u][v]['lat_accel'] / pre_accel)
@@ -103,12 +104,12 @@ class ANN:
         y = np.loadtxt(y_file, delimiter=',')
         X_train, X_test, y_train, y_test = self.preprocess(X[:, 3:7], y)
         self.mlp = self.GetPredict(X_train, y_train)
-        print('预测模型完成')
+        print('Predictive model completed')
 
     def GetPredict(self, X_train, y_train):
         mlp = MLPClassifier(hidden_layer_sizes=(400, 100), alpha=0.01, max_iter=3000)
-        # 调用fit函数就可以进行模型训练，一般的调用模型函数的训练方法都是fit()
-        mlp.fit(X_train, y_train)  # 这里y值需要注意，还原成一维数组
+        # Model training can be performed by calling the fit function. The general training method for calling the model function is fit()
+        mlp.fit(X_train, y_train)  # Here the y value needs to be paid attention to, restored to a one-dimensional array
         return mlp
 
     def DataProcess(self, time, node_id_u, node_id_v, link_time, trans_distance_rate, direction_is_same, Gvalue_rate, accel_rate, angle):
@@ -126,7 +127,7 @@ class ANN:
     def preprocess(self, X, y):
         X_train, X_test, y_train, y_test = train_test_split(X, y)
         # print(X_train)
-        # 数据处理基本完毕，返回处理好的数据
+        # Data processing is basically completed, return the processed data
         scaler = StandardScaler()
         scaler.fit(X_train)
         X_train = scaler.transform(X_train)
@@ -147,24 +148,24 @@ class ANN:
 
 
 def NeuralNetwork(X_train, y_train, X_test, y_test):
-    # 首先，创建一个多分类模型对象 类似于Java的类调用
-    # 括号中填写多个参数，如果不写，则使用默认值，我们一般要构建隐层结构，调试正则化参数，设置最大迭代次数
+    # First, create a multi-class model object, similar to the Java class call
+    # Fill in multiple parameters in brackets. If you don’t write them, use the default values. We generally need to build a hidden layer structure, debug regularization parameters, and set the maximum number of iterations.
     mlp = MLPClassifier(hidden_layer_sizes=(400, 100), alpha=0.01, max_iter=3000)
     # 调用fit函数就可以进行模型训练，一般的调用模型函数的训练方法都是fit()
-    mlp.fit(X_train, y_train)  # 这里y值需要注意，还原成一维数组
-    # 模型就这样训练好了，而后我们可以调用多种函数来获取训练好的参数
-    # 比如获取准确率
+    mlp.fit(X_train, y_train)  # Here the y value needs to be paid attention to, restored to a one-dimensional array
+    # The model is trained like this, and then we can call a variety of functions to get the trained parameters
+    # Such as obtaining accuracy
     print('训练集的准确率是：', mlp.score(X_train, y_train))
-    # 比如输出当前的代价值
+    # For example, output the current cost value
     print('训练集的损失值是：', mlp.loss_)
     # 比如输出每个theta的权重
     # print('训练集的权重值是：', mlp.coefs_)
     predictions = mlp.predict(X_test)
     print('测试集预测：', predictions)
-    # 混淆矩阵可以直观的看出分类中正确的个数和分错的个数，以及将正确的样本错误地分到了哪个类别
+    # The confusion matrix can intuitively see the correct number and the number of errors in the classification, as well as which category the correct sample is incorrectly classified into
     matrix_train = confusion_matrix(y_train, mlp.predict(X_train))
     print('训练集的混淆矩阵是：', matrix_train)
-    # 分类报告中有多个指标用于评价预测的好坏。
+    # There are multiple indicators in the classification report to evaluate the quality of the prediction.
     '''
     TP: 预测为1(Positive)，实际也为1(Truth-预测对了)
     TN: 预测为0(Negative)，实际也为0(Truth-预测对了)
