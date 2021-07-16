@@ -1,6 +1,5 @@
-'''该类为节点的自扩展与自吸纳方法类
-    节点自扩展：节点将附近通信范围内的节点特征值进行比较，相近则纳为一个集群里，从而选择一个影响力最大化节点
-    节点自吸纳：在经过分叉路口时节点可能会脱离原集群，此时需重新为其寻找影响力最大化节点
+'''
+This class is used to store public functions, etc.
 '''
 import numpy as np
 import Global_Par as glp
@@ -50,7 +49,7 @@ class ExpAbs:
         return re
 
     def com_distance(self, node_list, com_node_list):
-        # 计算通信节点列表中源节点与目的节点距离的列表
+        # Calculate the list of the distance between the source node and the destination node in the communication node list
         com_distance = []
         # print(com_node_list)
         for i in range(len(com_node_list)):
