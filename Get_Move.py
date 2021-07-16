@@ -5,7 +5,7 @@ import Init
 import Global_Par as gp
 
 
-# 获取车辆节点的数量和仿真时间
+# Get the number of vehicle nodes and simulation time
 def get_sim_parameter(configfile_path):
     with open(configfile_path, 'r') as f:
         for line in f:
@@ -18,7 +18,7 @@ def get_sim_parameter(configfile_path):
     return node_num, sim_time
 
 
-# 获取车量节点的初始位置以及运动轨迹的变化情况
+# Get the initial position of the vehicle volume node and the change of the motion trajectory
 def get_position(mobile_file_path):
     x_max = 0
     y_max = 0
@@ -46,10 +46,10 @@ def get_position(mobile_file_path):
                 item_list = []
             else:
                 key = key + 1
-                # 将节点编号写入列表
+                # Write node number to list
                 if key % 3 == 1:
                     item_list.append(int(line_list[1][7:-1]))
-                # 将节点的位置(x,y)写入列表
+                # Write the position (x, y) of the node to the list
                 if key % 3 != 0:
                     item_list.append(float(line_list[4]))
                 if key % 3 == 0:
@@ -86,10 +86,10 @@ def get_position_X_(mobile_file_path):
                 item_list = []
             else:
                 key = key + 1
-                # 将节点编号写入列表
+                # Write node number to list
                 if key % 3 == 1:
                     item_list.append(int(line_list[0][7:-1]))
-                # 将节点的位置(x,y)写入列表
+                # Write the position (x, y) of the node to the list
                 if key % 3 != 0:
                     item_list.append(float(line_list[3]))
                 if key % 3 == 0:
